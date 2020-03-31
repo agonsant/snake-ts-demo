@@ -1,0 +1,32 @@
+{
+  "name": "snake-ts-demo",
+  "version": "1.0.0",
+  "description": "Typescript Snake game to learn step by step key concepts about TS",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --p tsconfig.json",
+    "start": "npx http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agonsant/snake-ts-demo.git"
+  },
+  "keywords": [
+    "TypeScript",
+    "JavaScript",
+    "FrontEnd",
+    "Game",
+    "DesignPatterns",
+    "POO"
+  ],
+  "author": "Alejandro Gonzalez Santiago & Carlos Martinez Casana",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/agonsant/snake-ts-demo/issues"
+  },
+  "homepage": "https://github.com/agonsant/snake-ts-demo#readme",
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  }
+}
