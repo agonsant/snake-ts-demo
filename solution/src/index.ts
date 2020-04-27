@@ -1,10 +1,9 @@
-(function greeter() {
-    console.log('Hello from a TypeScript file.');
-})()
+// Issue for native TypeScript https://github.com/microsoft/TypeScript/issues/16577
+import { Game } from "./game.js";
 
+let game;
 
-window.onload = function htmlGreeter () {
-    var element = document.createElement('p')
-    element.innerHTML = 'Hello from a TypeScript file.';
-    document.body.appendChild(element)
-}
+window.onload = (ev: Event) => {
+    game = new Game();
+    game.start();
+};
