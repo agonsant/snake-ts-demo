@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --p tsconfig.json",
+    "build:prod" : "tsc -p tsconfig.prod.json",
     "start": "npx http-server"
   },
   "repository": {
