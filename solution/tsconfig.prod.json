@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,                   /* Generates corresponding '.d.ts' file. */
+    "outDir": "./dist",                        /* Redirect output structure to the directory. */
+    "removeComments": true,                /* Do not emit comments to output. */
+    "inlineSourceMap": false,               /* Emit a single file with source maps instead of having a separate file. */
+    "inlineSources": false,  
+    "watch": false,
+  }
+}

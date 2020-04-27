@@ -3,7 +3,7 @@ import { Game } from "./game.js";
 
 let game;
 
-window.onload = (ev: Event) => {
+window.onload = () => {
     game = new Game();
     game.start();
 };
