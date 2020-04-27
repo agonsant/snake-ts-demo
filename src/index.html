@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
     <title>TypeScript Application</title>
-    <script src="./index.js"></script>
-</head> 
+    <link rel="stylesheet" type="text/css" href="snake.css">
+    <script type="module" src="./index.js"></script>
+</head>
+
 <body>
+    <div class="gameboy">
+        <span class="headline">dot matrix with stereo sound</span>
+        <span class="battery">battery</span>
+        <div class="screen">
+            <div class="screen-reflect"></div>
+            <canvas id="game" width="250" height="250"></canvas>
+        </div>
+        <h2>Nintendo <i>GAME BOY</i> <sub>TM</sub></h2>
+        <div class="buttons">
+            <div class="stick">
+                <button class="left"></button>
+                <button class="right"></button>
+                <button class="circle"></button>
+                <button class="top"></button>
+                <button class="bottom"></button>
+            </div>
+            <div class="buttons-ab">
+                <button class="button-a"></button>
+                <button class="button-b"></button>
+            </div>
+            <div class="buttons-start-select">
+                <button class="button-start"></button>
+                <button class="button-select"></button>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
