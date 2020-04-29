@@ -1,19 +1,24 @@
 import { Board } from "./board.js";
 import { Snake } from "./snake.js";
-import { Point } from "./models/models.js";
+import { Point, IRenderContext, IBoard, ISnake, IDrawable } from "./models/models.js";
+import { CanvasRenderContext } from "./canvas-render-context.js";
 
 export class Game {
 
-    private board: Board;
-    private snake: Snake;
+    private board: IBoard;
+    private snake: ISnake;
     private static grid: number = 10;
     private frameCount: number;
     private gameOver: boolean;
+    private render: IRenderContext
+    private drawableElements: IDrawable[];
 
     constructor() {
         const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('game');
-        this.board = new Board(canvas);
-        this.snake = new Snake({ dx: Game.grid, dy: 0 }, { x: 160, y: 160 }, 4);
+        this.render = new CanvasRenderContext(canvas, Game.grid);
+        this.board = new Board<CanvasRenderContext>(canvas.width, canvas.height, Game.grid,<CanvasRenderContext>this.render);
+        this.snake = new Snake<CanvasRenderContext>({ dx: Game.grid, dy: 0 }, { x: 160, y: 160 }, 4, <CanvasRenderContext>this.render);
+        this.drawableElements = [this.board, this.snake];
         this.frameCount = 0;
         this.gameOver = false;
         this.registerActions();
@@ -64,11 +69,12 @@ export class Game {
             requestAnimationFrame(this.start.bind(this));
             if (++this.frameCount < 6) return;
             this.frameCount = 0;
-            this.snake.move(this.board.getHeight(), this.board.getWidth(), Game.grid);
-            this.board.draw(this.snake, Game.grid);
+            this.snake.move(this.board);
+            this.render.clear();
+            this.drawableElements.forEach(e => e.draw());
             this.gameOver = this.isSnakeCollision();
         } else {
-            this.board.gameOver();
+            this.render.drawGameOver();
         }
     }
 }

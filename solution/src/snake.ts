@@ -1,13 +1,14 @@
-import { Point, Vector } from "./models/models";
+import { Point, Vector, ISnake, IRenderContext, IBoard } from "./models/models";
 
 
-export class Snake {
+export class Snake<T extends IRenderContext> implements ISnake {
 
     private head: Point;
     private velocity: Vector;
     private body: Point[];
+    private render: T;
 
-    constructor(initialVelocity: Vector, initialPosition: Point, initialLength: number) {
+    constructor(initialVelocity: Vector, initialPosition: Point, initialLength: number, render: T) {
         this.velocity = initialVelocity;
         this.head = initialPosition;
         this.body = [];
@@ -18,21 +19,22 @@ export class Snake {
             y -= initialVelocity.dy;
             x -= initialVelocity.dx;
         }
+        this.render = render;
     }
 
-    private calculateLimitPosition(maxHeight: number, maxWidth: number, grid: number): Partial<Point> {
+    private calculateLimitPosition(board: IBoard): Partial<Point> {
         const limitPosition: Partial<Point> = {};
         // wrap snake position horizontally on edge of the board
         if (this.head.x < 0) {
-            limitPosition.x = maxWidth - grid;
-        } else if (this.head.x >= maxWidth) {
+            limitPosition.x = board.getWidth() - board.getGridSize();
+        } else if (this.head.x >= board.getWidth()) {
             limitPosition.x = 0;
         }
 
         // wrap snake position vertically on edge of the board
         if (this.head.y < 0) {
-            limitPosition.y = maxHeight - grid;
-        } else if (this.head.y >= maxHeight) {
+            limitPosition.y = board.getHeight() - board.getGridSize();
+        } else if (this.head.y >= board.getHeight()) {
             limitPosition.y = 0;
         }
         return limitPosition;
@@ -41,12 +43,12 @@ export class Snake {
     /**
      * Moves the Snake One position removing the last cell and creating a new head
      */
-    move(maxHeight: number, maxWidth: number, grid: number): void {
+    move(board: IBoard): void {
         this.body.unshift({ x: this.head.x, y: this.head.y });
         this.body.pop();
         this.head.x += this.velocity.dx;
         this.head.y += this.velocity.dy;
-        this.head = { ...this.head, ...this.calculateLimitPosition(maxHeight, maxWidth, grid) };
+        this.head = { ...this.head, ...this.calculateLimitPosition(board) };
     }
 
     /**
@@ -69,5 +71,9 @@ export class Snake {
      */
     changeDirection(newDirection: Vector): void {
         this.velocity = newDirection;
+    }
+
+    draw(): void {
+        this.render.drawSnakeCell(this.getCells(), 'green');
     }
 }
