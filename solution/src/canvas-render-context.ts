@@ -8,11 +8,18 @@ export class CanvasRenderContext implements IRenderContext {
     private height: number;
     private gridSize: number;
 
-    constructor(canvas: HTMLCanvasElement, gridSize: number) {
+    constructor(containerID: string, width: number, height: number, gridSize: number) {
+        if (!document || !window) throw new Error('No se ha detectado un Navegador, No se puede renderizar el contexto');
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
         this.context = canvas.getContext('2d');
         this.width = canvas.width;
         this.height = canvas.height;
         this.gridSize = gridSize;
+        const container = document.getElementById(containerID);
+        if (!container) throw new Error('No se ha encontrado el elemento del DOM contenedor');
+        container.appendChild(canvas);
     }
 
     drawSnakeCell(cells: Point[], color: string): void {
@@ -23,11 +30,12 @@ export class CanvasRenderContext implements IRenderContext {
     }
 
     drawFood(position: Point, color: string): void {
-        throw new Error("Method not implemented." + position + color);
+        if (this.context) this.context.fillStyle = color;
+        this.context?.fillRect(position.x, position.y, this.gridSize - 1, this.gridSize - 1);
     }
 
     drawBoard(): void {
-        
+
     }
 
     drawGameOver(): void {

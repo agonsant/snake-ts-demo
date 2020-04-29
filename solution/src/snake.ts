@@ -40,14 +40,18 @@ export class Snake<T extends IRenderContext> implements ISnake {
         return limitPosition;
     }
 
+    private updateCells():void {
+        this.body.unshift({ x: this.head.x, y: this.head.y });
+        this.head.x += this.velocity.dx;
+        this.head.y += this.velocity.dy;
+    }
+
     /**
      * Moves the Snake One position removing the last cell and creating a new head
      */
     move(board: IBoard): void {
-        this.body.unshift({ x: this.head.x, y: this.head.y });
+        this.updateCells();
         this.body.pop();
-        this.head.x += this.velocity.dx;
-        this.head.y += this.velocity.dy;
         this.head = { ...this.head, ...this.calculateLimitPosition(board) };
     }
 
@@ -75,5 +79,9 @@ export class Snake<T extends IRenderContext> implements ISnake {
 
     draw(): void {
         this.render.drawSnakeCell(this.getCells(), 'green');
+    }
+
+    feed(): void {
+        this.updateCells();
     }
 }

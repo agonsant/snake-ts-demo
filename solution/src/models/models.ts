@@ -17,6 +17,7 @@ export interface IBoard extends IDrawable {
     getWidth(): number;
     getHeight(): number;
     getGridSize(): number;
+    generateRandomPosition(): Point;
 }
 
 export interface ISnake extends IDrawable {
@@ -24,6 +25,7 @@ export interface ISnake extends IDrawable {
     move(board: IBoard): void;
     changeDirection(newDirection: Vector): void;
     getDirection(): Vector;
+    feed(): void;
 }
 
 export interface IRenderContext {
@@ -34,4 +36,8 @@ export interface IRenderContext {
     getWidth(): number;
     getHeight(): number;
     clear(): void;
+}
+
+export interface IFood extends IDrawable{
+    getPosition(): Point;
 }
