@@ -1,6 +1,7 @@
 import { Board } from "./board.js";
 import { Snake } from "./snake.js";
-import { Point } from "./models/models.js";
+import { Point, IRenderContext } from "./models/models.js";
+import { CanvasRenderContext } from "./canvas-render-context.js";
 
 export class Game {
 
@@ -9,11 +10,13 @@ export class Game {
     private static grid: number = 10;
     private frameCount: number;
     private gameOver: boolean;
+    private renderContext: IRenderContext;
 
     constructor() {
         const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('game');
+        this.renderContext = new CanvasRenderContext(canvas, Game.grid);
         this.board = new Board(canvas);
-        this.snake = new Snake({ dx: Game.grid, dy: 0 }, { x: 160, y: 160 }, 4);
+        this.snake = new Snake<CanvasRenderContext>({ dx: Game.grid, dy: 0 }, { x: 160, y: 160 }, 4, <CanvasRenderContext>this.renderContext);
         this.frameCount = 0;
         this.gameOver = false;
         this.registerActions();

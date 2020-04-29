@@ -1,16 +1,20 @@
-import { Point, Vector } from "./models/models";
+import { Point, Vector, ISnake, IBoard, IRenderContext } from "./models/models";
 
 
-export class Snake {
+export class Snake<T extends IRenderContext> implements ISnake {
 
     private head: Point;
     private velocity: Vector;
     private body: Point[];
+    private renderContext: T;
+    private color: string;
 
-    constructor(initialVelocity: Vector, initialPosition: Point, initialLength: number) {
+    constructor(initialVelocity: Vector, initialPosition: Point, initialLength: number, renderContext: T) {
         this.velocity = initialVelocity;
         this.head = initialPosition;
         this.body = [];
+        this.renderContext = renderContext;
+        this.color = 'green';
         let x: number = initialPosition.x - initialVelocity.dx;
         let y: number = initialPosition.y - initialVelocity.dy;
         for (let i = 0; i < initialLength - 1; i++) {
@@ -41,12 +45,12 @@ export class Snake {
     /**
      * Moves the Snake One position removing the last cell and creating a new head
      */
-    move(maxHeight: number, maxWidth: number, grid: number): void {
+    move(board: IBoard): void {
         this.body.unshift({ x: this.head.x, y: this.head.y });
         this.body.pop();
         this.head.x += this.velocity.dx;
         this.head.y += this.velocity.dy;
-        this.head = { ...this.head, ...this.calculateLimitPosition(maxHeight, maxWidth, grid) };
+        this.head = { ...this.head, ...this.calculateLimitPosition(board.getHeight(), board.getWidth(), board.getGridSize()) };
     }
 
     /**
@@ -69,5 +73,10 @@ export class Snake {
      */
     changeDirection(newDirection: Vector): void {
         this.velocity = newDirection;
+    }
+
+
+    draw(): void {
+        this.renderContext.drawSnake(this.getCells(), this.color);
     }
 }
